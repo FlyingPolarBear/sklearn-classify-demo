@@ -2,8 +2,8 @@
 Author: drlv
 Email: drlv@iflytek.com
 Date: 2020-12-16 09:33:36
-LastEditors: drlv
-LastEditTime: 2021-02-07 15:28:42
+LastEditors: Derry
+LastEditTime: 2021-10-14 13:09:53
 Description: demo to compare the performances of several machine learning algorithms in three datasets
 --algorithms: GBDT RF Extra SVM MLP
 --datasets: iris usps adult
@@ -17,6 +17,8 @@ from sklearn.metrics import accuracy_score
 
 from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
+from xgboost import XGBClassifier
+from lightgbm import LGBMClassifier
 
 
 def pipeline(ML_model_name, ML_model, X_train, X_test, y_train, y_test):
@@ -70,8 +72,9 @@ def load_adult_data():
     return X_train, X_test, y_train, y_test
 
 
-model_dict = {'GBDT': GradientBoostingClassifier(), 'RF': RandomForestClassifier(
-), 'Extra': ExtraTreesClassifier(), 'SVM': SVC(kernel='poly'), 'MLP': MLPClassifier(max_iter=1000)}
-X_train, X_test, y_train, y_test = load_adult_data()
+model_dict = {'xgboost': XGBClassifier(), 'lgbm': LGBMClassifier(n_estimators=200),
+              'GBDT': GradientBoostingClassifier(), 'RF': RandomForestClassifier(), 'Extra': ExtraTreesClassifier(),
+              'SVM': SVC(kernel='poly'), 'MLP': MLPClassifier(max_iter=1000)}
+X_train, X_test, y_train, y_test = load_iris_data()
 for ML_model_name, ML_model in model_dict.items():
     pipeline(ML_model_name, ML_model, X_train, X_test, y_train, y_test)
